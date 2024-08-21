@@ -1,4 +1,5 @@
-import { connectToDB } from "../dbConnect/ConnectDB";
+'use server'
+import connectDB from "../dbConnect/ConnectDB";
 import { SocialUser } from "../Models/models";
 
 
@@ -10,8 +11,10 @@ export const createOrUpdateUser = async (
   email_addresses,
   username
 ) => {
+  console.log('user last ' ,id, first_name);
+  
   try {
-    await connectToDB();
+    await connectDB();
 
     const user = await SocialUser.findOneAndUpdate(
       { clerkId: id },
@@ -27,17 +30,18 @@ export const createOrUpdateUser = async (
       { upsert: true, new: true } // if user doesn't exist, create a new one
     );
 
-    await user.save();
+    console.log('User created or updated:', user);
     return user;
   } catch (error) {
-    console.error(error);
+    console.error('Error in createOrUpdateUser:', error);
+    throw error; // Rethrow error so it can be handled upstream
   }
 };
 
 export const deleteUser = async (id) => {
   try {
-    await connectToDB();
-    await User.findOneAndDelete({ clerkId: id });
+    await connectDB();
+    await SocialUser.findOneAndDelete({ clerkId: id });
   } catch (error) {
     console.error(error);
   }

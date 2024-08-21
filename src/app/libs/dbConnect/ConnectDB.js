@@ -1,25 +1,35 @@
+// lib/mongoose.js
 import mongoose from 'mongoose';
 
-let isConnected = false;
+const MONGO_URI = process.env.MONGO_URI;
 
-export const connectToDB = async () => {
-  mongoose.set('strictQuery', true);
+if (!MONGO_URI) {
+  throw new Error('Please define the MONGO_URI environment variable in .env.local');
+}
 
-  if (isConnected) {
-    console.log('MongoDB is already connected');
-    return;
+let cached = global.mongoose;
+
+if (!cached) {
+  cached = global.mongoose = { conn: null, promise: null };
+}
+
+async function connectDB() {
+  if (cached.conn) {
+    return cached.conn;
   }
 
-  try {
-    await mongoose.connect(process.env.NEXT_PUBLIC_MONGOOSE_URL, {
-      dbName: 'social-app',
+  if (!cached.promise) {
+    const opts = {
       useNewUrlParser: true,
       useUnifiedTopology: true,
+    };
+
+    cached.promise = mongoose.connect(MONGO_URI, opts).then((mongoose) => {
+      return mongoose;
     });
-    isConnected = true;
-    console.log('MongoDB is connected');
-  } catch (error) {
-    console.error('Error connecting to MongoDB:', error);
-    throw error;
   }
-};
+  cached.conn = await cached.promise;
+  return cached.conn;
+}
+
+export default connectDB;
