@@ -1,5 +1,5 @@
 import connectDB from "@/app/libs/ConnectDB";
-import { SocialPosts } from "@/app/libs/Models/models";
+import { SocialPosts, SocialUsers } from "@/app/libs/Models/models";
 
 export const GET = async(req,{params})=>{
 try {
@@ -63,3 +63,24 @@ export const POST = async (req, { params }) => {
     return new Response("Failed to update the post", { status: 500 });
   }
 };
+
+export const DELETE = async (req, { params }) => {
+    try {
+      await connectDB();
+  
+      await Post.findByIdAndDelete(params.id);
+  
+      const user = await SocialUsers.findByIdAndUpdate(
+        params.creatorId,
+        { $pull: { posts: params.id } },
+        { new: true, useFindAndModify: false }
+      )
+        .populate("posts savedPosts likedPosts followers following")
+        .exec();
+  
+      return new Response(JSON.stringify(user), { status: 200 });
+    } catch (err) {
+      console.error(err);
+      return new Response("Failed to delete the post", { status: 500 });
+    }
+  };
