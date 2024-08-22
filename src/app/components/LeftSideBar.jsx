@@ -14,11 +14,13 @@ const LeftSideBar = () => {
     
     const [loading, setLoading] = React.useState(true)
     const [userData, setUserData] = React.useState({})
-    console.log('useData', userData);
+    console.log('useData', userData?.posts?.length);
     
     const getUser = async () => {
       const response = await fetch(`/api/user/${user.id}`);
       const data = await response.json();
+      console.log('data1', data);
+      
       setUserData(data);
       setLoading(false);
     };
@@ -56,15 +58,15 @@ const LeftSideBar = () => {
         </div>
         <div className="flex text-light-1 justify-between">
           <div className="flex flex-col items-center">
-            <p className="text-base-bold">{userData?.posts?.length}</p>
+            <p className="text-base-bold">{userData ? userData?.posts?.length : 0}</p>
             <p className="text-tiny-medium">Posts</p>
           </div>
           <div className="flex flex-col items-center">
-            <p className="text-base-bold">{userData?.followers?.length}</p>
+            <p className="text-base-bold">{userData ? userData?.followers?.length:0}</p>
             <p className="text-tiny-medium">Followers</p>
           </div>
           <div className="flex flex-col items-center">
-            <p className="text-base-bold">{userData?.following?.length}</p>
+            <p className="text-base-bold">{userData ? userData?.following?.length :0}</p>
             <p className="text-tiny-medium">Following</p>
           </div>
         </div>
