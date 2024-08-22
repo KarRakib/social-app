@@ -1,10 +1,10 @@
 // lib/mongoose.js
 import mongoose from 'mongoose';
 
-const MONGO_URI = process.env.MONGOOSE_URL;
+const MONGOOSE_URL = process.env.MONGOOSE_URL;
 
-if (!MONGO_URI) {
-  throw new Error('Please define the MONGO_URL environment variable in .env.local');
+if (!MONGOOSE_URL) {
+  throw new Error('Please define the MONGOOSE_URL environment variable in .env.local');
 }
 
 let cached = global.mongoose;
@@ -24,7 +24,7 @@ async function connectDB() {
       useUnifiedTopology: true,
     };
 
-    cached.promise = mongoose.connect(MONGO_URI, opts).then((mongoose) => {
+    cached.promise = mongoose.connect(MONGOOSE_URL, opts).then((mongoose) => {
       return mongoose;
     });
   }
