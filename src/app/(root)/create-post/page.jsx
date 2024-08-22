@@ -25,6 +25,7 @@ const CreatePost = () => {
       getUser();
     }
   }, [user]);
+console.log('post user',userData._id);
 
   const postData = {
     creatorId: userData?._id,
@@ -38,7 +39,7 @@ const CreatePost = () => {
   ) : (
     <div className="pt-6">
       <PostForm
-       post={postData} apiEndpoint={"/api/post/new"}
+       post={postData} apiEndpoint={"/api/post/add"}
         />
     </div>
   );

@@ -6,12 +6,18 @@ import axios from 'axios';
 import { useRouter } from 'next/navigation';
 
 const PostForm = ({ post, apiEndpoint }) => {
+    console.log('post form',post);
+    
     const { register, handleSubmit, watch, formState: { errors } } = useForm({ defaultValues: post });
     const router = useRouter()
     const handlePublish = async (data) => {
+        console.log('uid', data);
+        
         try {
             const postForm = new FormData();
-            postForm.append("creatorId", data.creatorId);
+            console.log('post form datata', postForm);
+            
+            postForm.append("creatorId", post.creatorId);
             postForm.append("caption", data.caption);
             postForm.append("tag", data.tag);
             if (typeof data.postPhoto !== 'string') {
@@ -19,7 +25,7 @@ const PostForm = ({ post, apiEndpoint }) => {
             } else {
                 postForm.append('postPhoto', data.postPhoto)
             }
-            const res = await axios.post(apiEndpoint);
+            const res = await axios.post(apiEndpoint,postForm);
             if (res.ok) {
                 router.push(`/profile/${data.creatorId}/posts`)
             }

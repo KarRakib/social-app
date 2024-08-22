@@ -6,11 +6,16 @@ import Link from 'next/link'
 import React from 'react'
 import Loader from './Loader'
 import MenuItems from './MenuItems'
+import axios from 'axios'
 
 const LeftSideBar = () => {
     const {user, isLoaded} = useUser();
+    console.log('undefined',user);
+    
     const [loading, setLoading] = React.useState(true)
-    const [userData, setUserData] = React.useState('')
+    const [userData, setUserData] = React.useState({})
+    console.log('useData', userData);
+    
     const getUser = async () => {
       const response = await fetch(`/api/user/${user.id}`);
       const data = await response.json();
@@ -20,19 +25,23 @@ const LeftSideBar = () => {
   
    React.useEffect(() => {
       if (user) {
-        // getUser();
+        getUser();
       }
     }, [user]);
-  
-    return  (
-    <div className="h-screen left-0 top-0 sticky overflow-auto px-10 py-6 flex flex-col gap-6 max-md:hidden 2xl:w-[350px] pr-20 custom-scrollbar">
-    <Link href="/">
-      <Image src="/user.jpg" alt="logo" width={200} height={200} />
-    </Link>
+
     
-    <div className="flex flex-col gap-2">
+  
+    return loading || !isLoaded?  (
+      <Loader/>
+    ):(
+      <div className="h-screen left-0 top-0 sticky overflow-auto px-10 py-6 flex flex-col gap-6 max-md:hidden 2xl:w-[350px] pr-20 custom-scrollbar">
+      <Link href="/">
+        <Image src="/user.jpg" alt="logo" width={200} height={200} />
+      </Link>
+
+      <div className="flex flex-col gap-2">
         <div className="flex flex-col gap-2 items-center text-light-1">
-          <Link href={`/profile/${userData._id}/posts`}>
+          <Link href={`/profile/${userData?._id}/posts`}>
             <Image
               src={userData?.profilePhoto}
               alt="profile photo"
@@ -63,7 +72,7 @@ const LeftSideBar = () => {
 
       <hr />
 
- <MenuItems/>
+      <MenuItems />
 
       <hr />
 
