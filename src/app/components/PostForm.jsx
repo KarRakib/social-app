@@ -26,8 +26,10 @@ const PostForm = ({ post, apiEndpoint }) => {
                 postForm.append('postPhoto', data.postPhoto)
             }
             const res = await axios.post(apiEndpoint,postForm);
-            if (res.ok) {
-                router.push(`/profile/${data.creatorId}/posts`)
+            console.log('from post Form',res);
+            
+            if (res) {
+                router.push(`/profile/${post.creatorId}/posts`)
             }
         } catch (error) {
 
