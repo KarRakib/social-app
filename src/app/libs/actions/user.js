@@ -1,5 +1,6 @@
 'use server'
-import connectDB from "../dbConnect/ConnectDB";
+
+import connectDB from "../ConnectDB";
 import { SocialUser } from "../Models/models";
 
 
