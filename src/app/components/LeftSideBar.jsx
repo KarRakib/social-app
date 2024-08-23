@@ -9,34 +9,35 @@ import MenuItems from './MenuItems'
 import axios from 'axios'
 
 const LeftSideBar = () => {
-    const {user, isLoaded} = useUser();
-    console.log('undefined',user);
-    
-    const [loading, setLoading] = React.useState(true)
-    const [userData, setUserData] = React.useState({})
-    console.log('useData', userData?.posts?.length);
-    
-    const getUser = async () => {
-   if(user && user.id){
-    const response = await fetch(`/api/user/${user.id}`);
-    const data = await response.json();
-    console.log('data1', data);
-    
-    setUserData(data);
-    setLoading(false);
-   }
-    };
+  const { user, isLoaded } = useUser();
+  const [loading, setLoading] = React.useState(true);
+  const [userData, setUserData] = React.useState({});
   
-   React.useEffect(() => {
-      if (user && isLoaded) {
-        getUser();
-      }
-    }, [user,isLoaded]);
+  console.log('useData', userData?.posts?.length);
 
-    
-  
-    return loading || !isLoaded?  (
-      <Loader/>
+  const getUser = async () => {
+      if (user && user.id) {
+          try {
+              const response = await fetch(`/api/user/${user.id}`);
+              const data = await response.json();
+              console.log('data1', data);
+              setUserData(data);
+          } catch (error) {
+              console.error("Error fetching user data:", error);
+          } finally {
+              setLoading(false);
+          }
+      }
+  };
+
+  React.useEffect(() => {
+      if (user && isLoaded) {
+          getUser();
+      }
+  }, [user, isLoaded]);
+
+  return loading || !isLoaded ? (
+      <Loader />
     ):(
       <div className="h-screen left-0 top-0 sticky overflow-auto px-10 py-6 flex flex-col gap-6 max-md:hidden 2xl:w-[350px] pr-20 custom-scrollbar">
       <Link href="/">
