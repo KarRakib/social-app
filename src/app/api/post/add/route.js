@@ -4,6 +4,8 @@ import { writeFile } from "fs/promises";
 import fs from 'fs';
 import path from 'path';
 export const POST = async(req) =>{
+    console.log(req);
+    
     
     try {
         await connectDB();
