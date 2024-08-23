@@ -23,9 +23,7 @@ const Home = () => {
     getFeedPost()
   }, []);
 
-  return loading || !isLoaded ? (
-    <Loader />
-  ) : (
+  return (
     <div className="flex flex-col gap-10">
       {feedPost.map((post) => (
         <PostCard
