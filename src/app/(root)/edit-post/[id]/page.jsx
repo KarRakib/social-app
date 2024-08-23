@@ -1,5 +1,7 @@
 'use client'
 
+import Posting from "@/app/components/Posting";
+
 const { useParams } = require("next/navigation");
 const { useState, useEffect } = require("react");
 
@@ -24,12 +26,20 @@ const EditPost = () => {
         getEditPost()
     }, [id])
 
-
-    return(
-        <>
-        Edit form
-        </>
-    )
-}
+    const postInfo = {
+        creatorId: postData?.creator?._id,
+        caption: postData?.caption,
+        tag: postData?.tag,
+        postPhoto: postData?.postPhoto,
+      }
+    
+    return loading ? (
+        <Loader />
+      ) : (
+        <div className="pt-6">
+          <Posting post={postInfo} apiEndpoint={`/api/post/${id}`}/>
+        </div>
+      );
+    };
 
 export default EditPost
