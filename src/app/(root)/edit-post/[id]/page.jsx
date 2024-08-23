@@ -1,45 +1,49 @@
-'use client'
+"use client"
 
+
+import Loader from "@/app/components/Loader";
 import Posting from "@/app/components/Posting";
-
-const { useParams } = require("next/navigation");
-const { useState, useEffect } = require("react");
+import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 const EditPost = () => {
-    const { id } = useParams();
-    const [loading, setLoading] = useState(true);
-    const [editPost, setEditPost] = useState({});
+  const { id } = useParams();
 
-    const getEditPost = async () => {
-        const res = await fetch(`/api/post/${id}`, {
-            method: 'GET', headers: {
-                'Content-Type': 'apllication/json'
-            }
-        })
-        const data = await res.json();
-        console.log(data);
-        setEditPost(data)
-        setLoading(false)
+  const [loading, setLoading] = useState(true);
 
-    }
-    useEffect(() => {
-        getEditPost()
-    }, [id])
+  const [postData, setPostData] = useState({});
 
-    const postInfo = {
-        creatorId: postData?.creator?._id,
-        caption: postData?.caption,
-        tag: postData?.tag,
-        postPhoto: postData?.postPhoto,
-      }
-    
-    return loading ? (
-        <Loader />
-      ) : (
-        <div className="pt-6">
-          <Posting post={postInfo} apiEndpoint={`/api/post/${id}`}/>
-        </div>
-      );
-    };
+  const getPost = async () => {
+    const response = await fetch(`/api/post/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await response.json();
+    setPostData(data);
+    setLoading(false);
+  };
 
-export default EditPost
+  useEffect(() => {
+    getPost();
+  }, [id]);
+
+  const postInfo = {
+    creatorId: postData?.creator?._id,
+    caption: postData?.caption,
+    tag: postData?.tag,
+    postPhoto: postData?.postPhoto,
+  }
+
+  console.log(postInfo)
+  return loading ? (
+    <Loader />
+  ) : (
+    <div className="pt-6">
+      <Posting post={postInfo} apiEndpoint={`/api/post/${id}`}/>
+    </div>
+  );
+};
+
+export default EditPost;

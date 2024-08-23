@@ -1,20 +1,21 @@
 "use client";
 
 import Loader from "@/app/components/Loader";
-import PostForm from "@/app/components/PostForm";
+import Posting from "@/app/components/Posting";
 import { useUser } from "@clerk/nextjs";
+
 
 import { useEffect, useState } from "react";
 
 const CreatePost = () => {
   const { user, isLoaded } = useUser();
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const [userData, setUserData] = useState({});
 
   const getUser = async () => {
-    const response = await fetch(`/api/user/${user.id}`);
+    const response = await fetch(`/api/user/${user?.id}`);
     const data = await response.json();
     setUserData(data);
     setLoading(false);
@@ -25,7 +26,6 @@ const CreatePost = () => {
       getUser();
     }
   }, [user]);
-  console.log('post user', userData?._id);
 
   const postData = {
     creatorId: userData?._id,
@@ -38,9 +38,7 @@ const CreatePost = () => {
     <Loader />
   ) : (
     <div className="pt-6">
-      <PostForm
-        post={postData} apiEndpoint={"/api/post/add"}
-      />
+      <Posting post={postData} apiEndpoint={"/api/post/new"} />
     </div>
   );
 };

@@ -68,7 +68,7 @@ export const DELETE = async (req, { params }) => {
     try {
       await connectDB();
   
-      await Post.findByIdAndDelete(params.id);
+      await SocialPosts.findByIdAndDelete(params.id);
   
       const user = await SocialUsers.findByIdAndUpdate(
         params.creatorId,
