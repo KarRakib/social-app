@@ -28,7 +28,7 @@ import {
   
     const handleSave = async () => {
       const response = await fetch(
-        `/api/user/${loggedInUser.id}/save/${post._id}`,
+        `/api/user/${loggedInUser?.id}/save/${post?._id}`,
         {
           method: "POST",
           headers: {
@@ -43,7 +43,7 @@ import {
   
     const handleLike = async () => {
       const response = await fetch(
-        `/api/user/${loggedInUser.id}/like/${post._id}`,
+        `/api/user/${loggedInUser?.id}/like/${post?._id}`,
         {
           method: "POST",
           headers: {
@@ -57,7 +57,7 @@ import {
     };
   
     const handleDelete = async () => {
-      await fetch(`/api/post/${post._id}/${userData._id}`, {
+      await fetch(`/api/post/${post?._id}/${userData?._id}`, {
         method: "DELETE",
       });
       update()
@@ -69,7 +69,7 @@ import {
           <Link href={`/profile/${creator._id}/posts`}>
             <div className="flex gap-3 items-center">
               <Image
-                src={creator.profilePhoto}
+                src={creator?.profilePhoto}
                 alt="profile photo"
                 width={50}
                 height={50}
@@ -77,10 +77,10 @@ import {
               />
               <div className="flex flex-col gap-1">
                 <p className="text-small-semibold text-light-1">
-                  {creator.firstName} {creator.lastName}
+                  {creator?.firstName} {creator?.lastName}
                 </p>
                 <p className="text-subtle-medium text-light-3">
-                  @{creator.username}
+                  @{creator?.username}
                 </p>
               </div>
             </div>
