@@ -17,19 +17,21 @@ const LeftSideBar = () => {
     console.log('useData', userData?.posts?.length);
     
     const getUser = async () => {
-      const response = await fetch(`/api/user/${user.id}`);
-      const data = await response.json();
-      console.log('data1', data);
-      
-      setUserData(data);
-      setLoading(false);
+   if(user && user.id){
+    const response = await fetch(`/api/user/${user.id}`);
+    const data = await response.json();
+    console.log('data1', data);
+    
+    setUserData(data);
+    setLoading(false);
+   }
     };
   
    React.useEffect(() => {
-      if (user) {
+      if (user && isLoaded) {
         getUser();
       }
-    }, [user]);
+    }, [user,isLoaded]);
 
     
   
