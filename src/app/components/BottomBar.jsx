@@ -1,8 +1,8 @@
 "use client"
 
-import { sidebarLinks } from "@constants";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { sidebarLinks } from "../constants";
 
 const BottomBar = () => {
   const pathname = usePathname();
