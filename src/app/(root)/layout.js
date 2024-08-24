@@ -4,6 +4,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import LeftSideBar from "../components/LeftSideBar";
 import MainContent from "../components/MainContent";
 import RightSideBar from "../components/RightSideBar";
+import BottomBar from "../components/BottomBar";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
@@ -13,19 +14,20 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-   <ClerkProvider>
-     <html lang="en">
-     <body className={`${inter.className} bg-purple-2 text-light-1`}>
-      <main className="flex flex-row">
-        <LeftSideBar/>
-        <MainContent>
-        {children}
-        </MainContent>
-     <RightSideBar/>
-      </main>
-        
+    <ClerkProvider>
+      <html lang="en">
+        <body className={`${inter.className} bg-purple-2 text-light-1`}>
+          <main className="flex flex-row">
+            <LeftSideBar />
+            <MainContent>
+              {children}
+            </MainContent>
+            <RightSideBar />
+            <BottomBar />
+          </main>
+
         </body>
-    </html>
-  </ClerkProvider>
+      </html>
+    </ClerkProvider>
   );
 }
