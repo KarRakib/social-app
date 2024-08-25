@@ -1,7 +1,7 @@
 "use client"
 
+import Loader from "@/app/components/Loader";
 import { useUser } from "@clerk/nextjs";
-import Loader from "@components/Loader";
 import PostCard from "@components/cards/PostCard";
 import Link from "next/link";
 import { useParams } from "next/navigation";
